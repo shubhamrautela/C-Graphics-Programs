@@ -1,0 +1,246 @@
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+#include<dos.h>
+#include<math.h>
+
+/** Global variables
+  *radius = radius of the pacman
+  *theta = current angle in radians with respect to x axis
+  *x = current x coordinate
+  *y = current y coordinate
+  *count = dont know why it's there for now
+  *speed = number of pixels it should move
+  *speed2 number of mili seconds before the next frame(i will probably define it as fps in later versions)
+  */
+  
+int radius=10,theta=0,x=200,y=200,current=0,count=0,speed=6,speed2=200;
+
+/** functions to move pacman in different directions */
+
+void go_right();
+void go_up();
+void go_down();
+void go_left();
+void check_key_hit();
+void draw_pacman();
+void draw_pacman_eating();
+
+/** waste
+void draw_wall(){
+ //int coordinates[]={0,0,getmaxx(),0,getmaxx(),20,0,20,0,0};
+ setcolor(WHITE);
+ line(1,2,getmaxx(),2);
+// fillpoly(5,coordinates);
+}
+
+/** this function checks whether a key was pressed or not
+  * after that it checks which key it was and calls function respective to that key
+  */
+  
+ void check_key_hit(){
+ if(kbhit()){
+
+  first=getch();
+  second=getch();
+  if(first==0 && second==72)
+  go_up();
+  else if(first==0 && second==75)
+  go_left();
+  else if(first==0 && second==77)
+  go_right();
+  if(first==0 && second==80)
+  go_down();
+  else exit();
+
+  }
+
+ }
+
+
+/** this function is responsible for drawing the pacman with mouth open 
+  * what it does is simply gets the angle and draws the pacman relative to that angle
+  */
+  
+void draw_pacman(){
+setcolor(GREEN);
+setfillstyle(1,GREEN);
+
+if(theta==90){
+pieslice(x,y,0+theta,360,radius);
+pieslice(x,y,0,40,radius);
+}
+else if(theta==180){
+pieslice(x,y,0,180,radius);
+pieslice(x,y,225,360,radius);
+}
+else if(theta==270){
+pieslice(x,y,0,225,radius);
+pieslice(x,y,270,360,radius);
+}
+
+else
+pieslice(x,y,0+theta,315+theta,radius);
+
+
+}
+
+/** this function is responsible for drawing the pacman with mouth closed 
+  * what it does is simply gets the angle and draws the pacman relative to that angle
+  */
+
+void drawPacmanEating(){
+setcolor(GREEN);
+setfillstyle(1,GREEN);
+
+if(theta==90){
+pieslice(x,y,0+theta,360,radius);
+pieslice(x,y,0,85,radius);
+}
+else if(theta==180){
+pieslice(x,y,0,180,radius);
+pieslice(x,y,185,360,radius);
+}
+else if(theta==270){
+pieslice(x,y,0,265,radius);
+pieslice(x,y,270,360,radius);
+}
+else
+
+pieslice(x,y,0+theta,355,radius);
+
+//circle(210+xinc-yinc,190,2);
+}
+
+
+/** function to make the pacman go left 
+  * change the angle
+  * keep moving the pacman with while loop
+  * check whether a key was pressed
+  */
+
+void go_left(){
+  int first=0,second=0,x_inc=0,y_inc=0;
+  theta=180;
+
+while(1){
+  x_inc=-speed;
+  count++;
+  check_key_hit();
+  
+   x=x+x_inc;
+   y=y-y_inc;
+	if(count%2==0)
+	drawPacman();
+	else {drawPacmanEating();
+
+	}
+	  delay(speed2);
+	  clearviewport();
+
+  }
+}
+
+
+/** function to make the pacman go left 
+  * change the angle
+  * keep moving the pacman with while loop
+  * check whether a key was pressed
+  */
+  
+  
+void go_up(){
+
+
+int first=0,second=0,x_inc=0,y_inc=0;
+//x=x_current,y=y_current;
+theta=90;
+
+while(1){
+  y_inc=speed;
+  count++;
+  
+   x=x+x_inc;
+   y=y-y_inc;
+	if(count%2==0)
+	drawPacman();
+	else {drawPacmanEating();
+
+	}
+	  delay(speed2);
+	  clearviewport();
+
+  }
+}
+
+
+/** function to make the pacman go left 
+  * change the angle
+  * keep moving the pacman with while loop
+  * check whether a key was pressed
+  */
+
+void go_down(){
+
+
+int first=0,second=0,x_inc=0,y_inc=0;
+//x=x_current,y=y_current;
+theta=270;
+
+while(1){
+  y_inc=-speed;
+  count++;
+  
+   x=x+x_inc;
+   y=y-y_inc;
+	if(count%2==0)
+	drawPacman();
+	else {drawPacmanEating();
+
+	}
+	  delay(speed2);
+	  clearviewport();
+
+  }
+}
+
+
+/** function to make the pacman go left 
+  * change the angle
+  * keep moving the pacman with while loop
+  * check whether a key was pressed
+  */
+
+void go_right(){
+
+
+int first=0,second=0,x_inc=0,y_inc=0;
+//x=x_current,y=y_current;
+theta=0;
+
+while(1){
+  x_inc=speed;
+  count++;
+     x=x+x_inc;
+   y=y-y_inc;
+	if(count%2==0)
+	drawPacman();
+	else {drawPacmanEating();
+
+	}
+	  delay(speed2);
+	  clearviewport();
+
+  }
+}
+
+
+void main()
+{
+int a=DETECT,b, count=0;
+initgraph(&a,&b,"");
+setfillstyle(1,YELLOW);
+go_right();
+
+getch();
+}
